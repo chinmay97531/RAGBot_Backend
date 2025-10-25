@@ -1,6 +1,7 @@
 import { OpenAIEmbeddings } from '@langchain/openai';
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { Chroma } from "@langchain/community/vectorstores/chroma";
+// import { Chroma } from "@langchain/community/vectorstores/chroma";
+import { PGVectorStore } from "@langchain/community/vectorstores/pgvector";
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { Document } from "@langchain/core/documents";
 
@@ -12,9 +13,18 @@ const embeddings = new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY,
 });
 
-export const vectorStore = await Chroma.fromExistingCollection(embeddings, {
-  collectionName: "youtube_transcripts",
-  url: "http://localhost:8000",
+export const vectorStore = await PGVectorStore.initialize(embeddings, {
+    postgresConnectionOptions: {
+        connectionString: process.env.DATABASE_API_KEY,
+    },
+    tableName: "transcripts",
+    columns: {
+        idColumnName: 'id',
+        vectorColumnName: 'vector',
+        contentColumnName: 'content',
+        metadataColumnName: 'metadata',
+    },
+    distanceStrategy: 'cosine',
 });
 
 

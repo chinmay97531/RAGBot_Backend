@@ -11,8 +11,7 @@ import { z } from 'zod';
 import dotenv from 'dotenv';
 dotenv.config();
 
-await addYTVideoToVectorStore(data.text);
-
+// await addYTVideoToVectorStore(data.text);
 
 const retrieveTool = tool(
   async ({ query }) => {
@@ -46,12 +45,12 @@ const agent = createReactAgent({
    checkpointer,
  });
 
-console.log('Q1: Name of 20 unique drivers in all the races?');
+console.log('Q1: Name all the races held in f1 in 2024 that you know?');
 const results = await agent.invoke({
     messages: [
         {
             role: 'user',
-            content: 'Name of 20 unique drivers in all the races?',
+            content:  'Name all the races held in f1 in 2024 that you know?',
         },
     ],
 }, { configurable: { thread_id: 1 } });
