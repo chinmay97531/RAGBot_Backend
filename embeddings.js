@@ -1,6 +1,4 @@
 import { OpenAIEmbeddings } from '@langchain/openai';
-// import { MemoryVectorStore } from "langchain/vectorstores/memory";
-// import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { PGVectorStore } from "@langchain/community/vectorstores/pgvector";
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { Document } from "@langchain/core/documents";
@@ -28,9 +26,9 @@ export const vectorStore = await PGVectorStore.initialize(embeddings, {
 });
 
 
-export const addYTVideoToVectorStore = async (data) => {
+export const addYTVideoToVectorStore = async (data, video_id) => {
     const docs = [
-        new Document({ pageContent: data }),
+        new Document({ pageContent: data, metadata: { video_id } }),
     ];
 
     const splitter = new RecursiveCharacterTextSplitter({
