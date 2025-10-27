@@ -24,19 +24,6 @@ It automatically:
 
 ---
 
-## 📁 Folder Structure
-
-server/
-├── agent.js # Defines AI agent with tools (retrieve + transcript)
-├── embeddings.js # Handles embeddings and vector store logic
-├── data.js # Fetches YouTube transcript using ScrapingBee
-├── server.js # Express backend API
-├── test.js # For testing the small code and to integrate
-├── .env # Environment variables
-└── package.json
-
----
-
 ## ⚙️ Environment Variables
 
 Create a `.env` file in the root directory with the following keys:
