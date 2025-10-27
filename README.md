@@ -1,4 +1,4 @@
-# 🧠 RAG Chatbot with YouTube Integration (Backend)
+# 🧠 RAG Bot with YouTube Integration (Backend)
 
 This project powers an **AI chatbot that can understand and answer questions about YouTube videos**.  
 It automatically:
