@@ -54,3 +54,6 @@ npm run dev
 
 # Your server should now be running at:
 http://localhost:3000
+
+# Access the Frintend from
+https://github.com/chinmay97531/RAGBot_Frontend
