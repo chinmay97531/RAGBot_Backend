@@ -2,7 +2,7 @@
 
 This project powers an **AI chatbot that can understand and answer questions about YouTube videos**.  
 It automatically:
-1. Fetches video transcripts from YouTube via the **ScrapingBee API**
+1. Fetches video transcripts from YouTube via the **SupaData API**
 2. Splits and embeds the transcript using **OpenAI embeddings**
 3. Stores the embeddings in a **Neon Console**
 4. Creates an **intelligent agent** (via LangGraph + Anthropic Claude) that can:
