@@ -36,7 +36,7 @@ OPENAI_API_KEY=your_openai_api_key
 ANTHROPIC_API_KEY=your_anthropic_api_key
 
 # ScrapingBee API key (for fetching YouTube transcripts)
-SCRAPINGBEE_API_KEY=your_scrapingbee_api_key
+SUPADATA_API_KEY=your_supadata_api_key
 
 # PostgreSQL connection URL with pgvector enabled
 DATABASE_API_KEY=postgres://username:password@host:port/dbname
