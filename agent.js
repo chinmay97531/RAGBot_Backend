@@ -50,7 +50,7 @@ const retrieveTool = tool(
     return serializedDocs;
   },
   {
-    name: 'retrieve',
+    name: 'retrieve_transcript_chunks',
     description: 'Retrieve the most relevant chunks from the transcript for a specific YouTube video.',
     schema: z.object({
       query: z.string(),
@@ -70,7 +70,7 @@ const retrieveSimilarVideosTool = tool(
     return ids;
   },
   {
-    name: 'retrieve',
+    name: 'retrieve_similar_videos',
     description: 'Retrieve the ids of the most relevant YouTube videos based on the query.',
     schema: z.object({
       query: z.string(),
@@ -79,7 +79,7 @@ const retrieveSimilarVideosTool = tool(
 );
 
 const llm = new ChatAnthropic({
-    model: "claude-3-5-haiku-latest",
+    model: "claude-3-haiku-20240307",
     apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
