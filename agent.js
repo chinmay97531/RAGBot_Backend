@@ -1,6 +1,8 @@
 // Taking Data -> Splitting the data -> Create embeddings -> Store in vector DB -> Create Agent with tools -> Query the agent
 
 import { ChatAnthropic } from '@langchain/anthropic';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { ChatOpenAI } from '@langchain/openai';
 import { createReactAgent } from '@langchain/langgraph/prebuilt';
 import { MemorySaver } from '@langchain/langgraph';
 import { vectorStore, addYTVideoToVectorStore } from './embeddings.js';
@@ -10,6 +12,45 @@ import { tool } from '@langchain/core/tools';
 import { z } from 'zod';
 import dotenv from 'dotenv';
 dotenv.config();
+
+function createLlm() {
+    const anthropicKey = process.env.ANTHROPIC_API_KEY?.trim();
+    const geminiKey = process.env.GEMINI_API_KEY?.trim();
+    const openaiKey = process.env.OPENAI_API_KEY?.trim();
+
+    if (anthropicKey) {
+        console.log('Using Anthropic Claude model');
+        return new ChatAnthropic({
+            model: 'claude-3-haiku-20240307',
+            apiKey: anthropicKey,
+        });
+    }
+
+    if (geminiKey) {
+        // Free-tier daily limits are per-model; flash-lite has a higher allowance
+        // than gemini-3.6-flash (which is only ~20 req/day on free tier).
+        const model = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
+        console.log(`ANTHROPIC_API_KEY not set — falling back to Gemini (${model})`);
+        return new ChatGoogleGenerativeAI({
+            model,
+            apiKey: geminiKey,
+            maxRetries: 2,
+        });
+    }
+
+    if (openaiKey) {
+        const model = process.env.OPENAI_MODEL?.trim() || 'gpt-4o-mini';
+        console.log(`ANTHROPIC_API_KEY and GEMINI_API_KEY not set — falling back to OpenAI (${model})`);
+        return new ChatOpenAI({
+            model,
+            apiKey: openaiKey,
+        });
+    }
+
+    throw new Error(
+        'No LLM API key found. Set ANTHROPIC_API_KEY, GEMINI_API_KEY, or OPENAI_API_KEY in your .env file.'
+    );
+}
 
 // First Tool: Trigger YouTube Transcript Tool
 const triggerYoutubeTranscriptTool = tool(async ({ video_url }) => {
@@ -78,10 +119,7 @@ const retrieveSimilarVideosTool = tool(
   }
 );
 
-const llm = new ChatAnthropic({
-    model: "claude-3-haiku-20240307",
-    apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const llm = createLlm();
 
 
 const checkpointer = new MemorySaver();
